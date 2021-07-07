@@ -19,7 +19,7 @@ class CreateMoviesTable extends Migration
             $table->string('title');
             $table->string('genre')->default(MovieGenre::Other);
             $table->dateTime('released_date');
-            $table->timestamps();
+            $table->dateTime('created_time');
         });
     }
 

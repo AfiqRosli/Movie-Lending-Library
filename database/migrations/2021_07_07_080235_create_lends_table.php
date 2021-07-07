@@ -15,7 +15,12 @@ class CreateLendsTable extends Migration
     {
         Schema::create('lends', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->unsignedInteger('movie_id');
+            $table->unsignedInteger('member_id');
+            $table->dateTime('lending_date');
+            $table->dateTime('returned_date');
+            $table->unsignedInteger('lateness_charge');
+            $table->dateTime('created_time');
         });
     }
 

@@ -17,8 +17,12 @@ class CreateMembersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->unsignedInteger('age');
-            $table->int('age');
-            $table->timestamps();
+            $table->string('address');
+            $table->string('telephone');
+            $table->string('identity_number');
+            $table->dateTime('date_of_joined');
+            $table->boolean('is_active');
+            $table->dateTime('created_time');
         });
     }
 
