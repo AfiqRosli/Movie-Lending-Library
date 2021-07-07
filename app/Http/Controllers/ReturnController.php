@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Lend;
 use Illuminate\Http\Request;
 
-class LendController extends Controller
+class ReturnController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,7 @@ class LendController extends Controller
      */
     public function index()
     {
-        return view('lend.index');
+        return view('return.index');
     }
 
     /**
@@ -41,10 +40,10 @@ class LendController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Lend  $lend
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Lend $lend)
+    public function show($id)
     {
         //
     }
@@ -52,10 +51,10 @@ class LendController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Lend  $lend
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lend $lend)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +63,10 @@ class LendController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Lend  $lend
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lend $lend)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +74,10 @@ class LendController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Lend  $lend
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lend $lend)
+    public function destroy($id)
     {
         //
     }
