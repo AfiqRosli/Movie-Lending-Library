@@ -1,0 +1,2 @@
+1 member can have multiple movies
+1 member can lend multiple movies to multiple members
