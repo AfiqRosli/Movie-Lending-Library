@@ -10,6 +10,13 @@
 
 @section('content')
 
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-5">
+        <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Movie</li>
+    </ol>
+</nav>
+
 @section('h1', 'Movies')
 
 <div class="d-flex flex-row-reverse mb-2">
