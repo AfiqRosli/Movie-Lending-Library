@@ -3,7 +3,8 @@
 @section('title', 'Homepage')
 
 @section('content')
-<h1 class="text-center my-5">Movie Lending Library</h1>
+
+@section('h1', 'Movie Lending Library')
 
 <div class="list-group">
     <a href="{{route('movie.index')}}" class="list-group-item list-group-item-action">Movies</a>
