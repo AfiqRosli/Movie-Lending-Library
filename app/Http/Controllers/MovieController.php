@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Movie;
+use App\Enums\MovieGenre;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -14,7 +15,9 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return view('movie.index');
+        $movieGenres = MovieGenre::getValues();
+
+        return view('movie.index', compact('movieGenres'));
     }
 
     /**
