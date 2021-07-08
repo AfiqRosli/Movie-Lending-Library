@@ -87,67 +87,110 @@
             ]
         });
 
-        $("#js-add-movie").click(async () => {
-            const {
-                value: formValues
-            } = await Swal.fire({
-                title: 'Add Movie',
-                html:
-                `
-                <form class="text-left">
-                    <div class="form-group row">
-                        <label for="swal-title" class="col-sm-2 col-form-label">Title</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="swal-title" placeholder="Avengers">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="swal-genre" class="col-sm-2 col-form-label">Genre</label>
-                        <div class="col-sm-10">
-                            <select id="swal-genre" class="form-control">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="swal-release-date" class="col-sm-4 col-form-label">Release Date</label>
-                        <div class="col-sm-8">
-                            <input id="swal-release-date" width="276">
-                        </div>
-                    </div>
-                </form>
-                `,
-                buttonsStyling: false,
-                showCancelButton: true,
-                confirmButtonText: 'Add',
-                customClass: {
-                    confirmButton: 'btn btn-primary btn-lg mr-2',
-                    cancelButton: 'btn btn-secondary btn-lg',
-                },
-                focusConfirm: false,
-                didOpen: () => {
-                    for (let index = 0; index < movieGenres.length; index++) {
-                        const genre = movieGenres[index];
+        $("#js-add-movie").click(() => {
+            openCreateModal(movieTable)
+        })
+    });
 
-                        $('#swal-genre').append(new Option(genre, genre))
-                    }
+    async function openCreateModal(movieTable) {
+        // Data passed from MovieController@index
+        var movieGenres = {!! json_encode($movieGenres, JSON_HEX_TAG) !!};
 
-                    $('#swal-release-date').datepicker({
-                        uiLibrary: 'bootstrap4'
-                    });
-                },
-                preConfirm: () => {
-                    return [
-                        document.getElementById('swal-title').value,
-                        document.getElementById('swal-genre').value,
-                        document.getElementById('swal-release-date').value
-                    ]
+        const {
+            value: movie
+        } = await Swal.fire({
+            title: 'Add Movie',
+            html: `
+            <form class="text-left">
+                <div class="form-group row">
+                    <label for="swal-title" class="col-sm-2 col-form-label">Title</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="swal-title" placeholder="Avengers">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="swal-genre" class="col-sm-2 col-form-label">Genre</label>
+                    <div class="col-sm-10">
+                        <select id="swal-genre" class="form-control">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="swal-release-date" class="col-sm-4 col-form-label">Release Date</label>
+                    <div class="col-sm-8">
+                        <input id="swal-release-date" width="276">
+                    </div>
+                </div>
+            </form>
+            `,
+            buttonsStyling: false,
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: 'Add',
+            customClass: {
+                confirmButton: 'btn btn-primary btn-lg mr-2',
+                cancelButton: 'btn btn-secondary btn-lg',
+            },
+            focusConfirm: false,
+            didOpen: () => {
+                for (let index = 0; index < movieGenres.length; index++) {
+                    const genre = movieGenres[index];
+                    $('#swal-genre').append(new Option(genre, genre))
                 }
-            })
+                $('#swal-release-date').datepicker({
+                    uiLibrary: 'bootstrap4'
+                });
+            },
+            preConfirm: async () => {
+                var movie = {
+                    title: $('#swal-title').val(),
+                    genre: $('#swal-genre').val(),
+                    date: $('#swal-release-date').val(),
+                }
 
-            if (formValues) {
-                Swal.fire(JSON.stringify(formValues))
+                try {
+                    var result = await $.ajax({
+                        url: './movie',
+                        method: 'POST',
+                        data: {
+                            movie
+                        }
+                    })
+
+                    movie = result.added_movie
+
+                    movieTable.row.add({
+                        'id': movie.id,
+                        'title': movie.title,
+                        'genre': movie.genre,
+                        'date': dayjs(movie.released_date).format('D MMM YYYY'),
+                        render: (data, type, row) => {
+                            var actions = generateActionIcons(row)
+
+                            return '<div class="text-center">' + actions.editIcon + actions.deleteIcon + '</div>'
+                        }
+                    }).draw();
+                } catch (error) {
+                    console.log(error)
+                    Swal.showValidationMessage('There is an Error')
+                }
+
+                return movie
             }
         })
+
+        if (movie) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Movie Added',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary btn-lg mr-2',
+                }
+            })
+        }
+    }
+
 
     function generateActionIcons(row) {
         var editIcon =
