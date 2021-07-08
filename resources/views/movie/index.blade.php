@@ -67,8 +67,20 @@
     $(document).ready(function () {
         var movieGenres = {!! json_encode($movieGenres, JSON_HEX_TAG) !!};
 
-        $('#movie-table').DataTable({
-            responsive: true
+        var movieTable = $('#movie-table').DataTable({
+            responsive: true,
+            columns: [
+                { data: 'id', visible: false },
+                { data: 'title' },
+                { data: 'genre' },
+                { data: 'date' },
+                { data: null, render: (data, type, row) => {
+                    var actions = generateActionIcons(row)
+
+                    return '<div class="text-center">' + actions.editIcon + actions.deleteIcon + '</div>'
+                    }
+                },
+            ]
         });
 
         $("#js-add-movie").click(async () => {
