@@ -14,6 +14,7 @@ global.$ = require("jquery");
 global.jQuery = global.$;
 
 window.Swal = require("sweetalert2");
+window.dayjs = require("dayjs");
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,5 +28,5 @@ Vue.component(
 );
 
 const app = new Vue({
-    el: "#app"
+    el: "#app",
 });
