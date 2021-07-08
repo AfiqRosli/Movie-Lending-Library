@@ -26,33 +26,31 @@
 <table id="movie-table" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Title</th>
             <th>Genre</th>
             <th>Release Date</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
+        @foreach ($movies as $movie)
         <tr>
-            <td>Avengers: End Game</td>
-            <td>Action</td>
-            <td>2018</td>
+            <td>{{ $movie->id }}</td>
+            <td>{{ $movie->title }}</td>
+            <td>{{ $movie->genre }}</td>
+            <td>{{ Helper::formatDate($movie->released_date) }}</td>
+            <td></td>
         </tr>
-        <tr>
-            <td>Captain Phillips</td>
-            <td>Historical</td>
-            <td>2013</td>
-        </tr>
-        <tr>
-            <td>Pokémon Detective Pikachu</td>
-            <td>Adventure</td>
-            <td>2019</td>
-        </tr>
+        @endforeach
     </tbody>
     <tfoot>
         <tr>
+            <th>ID</th>
             <th>Title</th>
             <th>Genre</th>
             <th>Release Date</th>
+            <th>Actions</th>
         </tr>
     </tfoot>
 </table>
