@@ -65,7 +65,11 @@
 
 <script>
     $(document).ready(function () {
-        var movieGenres = {!! json_encode($movieGenres, JSON_HEX_TAG) !!};
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         var movieTable = $('#movie-table').DataTable({
             responsive: true,
