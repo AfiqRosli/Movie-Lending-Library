@@ -14,13 +14,13 @@ final class MovieGenre extends Enum
     const Action = 'Action';
     const Adventure = 'Adventure';
     const Comedy = 'Comedy';
-    const CrimeAndMystery = 'CrimeAndMystery';
+    const CrimeAndMystery = 'Crime & Mystery';
     const Fantasy = 'Fantasy';
     const Historical = 'Historical';
     const Horror = 'Horror';
     const Romance = 'Romance';
     const Satire = 'Satire';
-    const ScienceFiction = 'ScienceFiction';
+    const ScienceFiction = 'Science Fiction';
     const Speculative = 'Speculative';
     const Thriller = 'Thriller';
     const Western = 'Western';
