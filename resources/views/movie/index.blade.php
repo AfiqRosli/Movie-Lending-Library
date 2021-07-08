@@ -148,6 +148,26 @@
                 Swal.fire(JSON.stringify(formValues))
             }
         })
-    });
+
+    function generateActionIcons(row) {
+        var editIcon =
+            `
+            <i onclick="openEditModal(this)"
+                data-id="${row.id}"
+                data-title="${row.title}"
+                data-genre="${row.genre}"
+                class="js-action-edit far fa-edit fa-lg mr-2">
+            </i>
+            `
+        var deleteIcon =
+            `
+            <i
+                data-id="${row.id}"
+                class="js-action-delete far fa-trash-alt fa-lg">
+            </i>
+            `
+
+        return { editIcon, deleteIcon }
+    }
 </script>
 @endsection
