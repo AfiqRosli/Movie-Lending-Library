@@ -38,7 +38,18 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $movie = new Movie;
+
+        $movie->title = $request->movie['title'];
+        $movie->genre = $request->movie['genre'];
+        $movie->released_date = date('Y-m-d', strtotime($request->movie['date']));
+        $movie->created_time = date('Y-m-d H:i:s');
+
+        $movie->save();
+
+        return response()->json([
+            'added_movie' => $movie
+        ], 200);
     }
 
     /**
