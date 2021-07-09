@@ -358,8 +358,11 @@
             `
         var deleteIcon =
             `
-            <i
+            <i onclick="openDeleteModal(this)"
                 data-id="${row.id}"
+                data-title="${row.title}"
+                data-genre="${row.genre}"
+                data-date="${row.date}"
                 class="js-action-delete far fa-trash-alt fa-lg icon icon__delete">
             </i>
             `
