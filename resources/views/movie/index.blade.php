@@ -64,6 +64,10 @@
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
 <script>
+    // Data passed from MovieController@index
+    var movieGenres = {!! json_encode($movieGenres, JSON_HEX_TAG) !!};
+    var movieTable
+
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
@@ -71,7 +75,7 @@
             }
         });
 
-        var movieTable = $('#movie-table').DataTable({
+        movieTable = $('#movie-table').DataTable({
             responsive: true,
             columns: [
                 { data: 'id', visible: false },
@@ -88,14 +92,11 @@
         });
 
         $("#js-add-movie").click(() => {
-            openCreateModal(movieTable)
+            openCreateModal()
         })
     });
 
-    async function openCreateModal(movieTable) {
-        // Data passed from MovieController@index
-        var movieGenres = {!! json_encode($movieGenres, JSON_HEX_TAG) !!};
-
+    async function openCreateModal() {
         const {
             value: movie
         } = await Swal.fire({
