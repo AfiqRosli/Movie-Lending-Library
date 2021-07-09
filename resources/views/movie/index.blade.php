@@ -174,7 +174,7 @@
                     }).draw();
                 } catch (error) {
                     console.log(error)
-                    Swal.showValidationMessage('There is an Error')
+                    Swal.showValidationMessage('Something went wrong')
                 }
 
                 return movie
