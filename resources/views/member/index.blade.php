@@ -238,6 +238,33 @@
 
         return row
     }
+
+    function getRowColumns(row) {
+        var column = {}
+
+        column.name = row.node.cells[0]
+        column.age = row.node.cells[1]
+        column.address= row.node.cells[2]
+        column.telephone= row.node.cells[3]
+        column.identity_number= row.node.cells[4]
+        column.date_of_joined= row.node.cells[5]
+        column.is_active = row.node.cells[6]
+        column.action = row.node.cells[7]
+        column.action.editIcon = $(column.action).find('svg.js-action-edit')
+        column.action.deleteIcon = $(column.action).find('svg.js-action-delete')
+
+        // Fallback if browser does not support SVG for FontAwesome and used i tag instead
+        if ($(column.action.editIcon).length == 0) {
+            column.action.editIcon = $(column.action).find('i.js-action-edit')
+        }
+
+        if ($(column.action.deleteIcon).length == 0) {
+            column.action.deleteIcon = $(column.action).find('i.js-action-delete')
+        }
+
+        return column
+    }
+
     function generateActionIcons(row) {
         var editIcon =
             `
