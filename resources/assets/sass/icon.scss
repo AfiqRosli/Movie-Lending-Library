@@ -1,0 +1,19 @@
+.icon {
+    cursor: pointer;
+}
+
+.icon__edit {
+    color: #77b5e8;
+}
+
+.icon__edit:hover {
+    color: $primary;
+}
+
+.icon__delete {
+    color: #ec7774;
+}
+
+.icon__delete:hover {
+    color: $danger;
+}
