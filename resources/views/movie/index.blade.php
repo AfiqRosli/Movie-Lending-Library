@@ -353,14 +353,14 @@
                 data-title="${row.title}"
                 data-genre="${row.genre}"
                 data-date="${row.date}"
-                class="js-action-edit far fa-edit fa-lg mr-2">
+                class="js-action-edit far fa-edit fa-lg mr-2 icon icon__edit">
             </i>
             `
         var deleteIcon =
             `
             <i
                 data-id="${row.id}"
-                class="js-action-delete far fa-trash-alt fa-lg">
+                class="js-action-delete far fa-trash-alt fa-lg icon icon__delete">
             </i>
             `
 
