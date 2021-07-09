@@ -146,9 +146,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="swal-identity-no" class="col-sm-3 col-form-label text-nowrap">Identity No.</label>
+                    <label for="swal-identity_number" class="col-sm-3 col-form-label text-nowrap">Identity No.</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="swal-identity-no" placeholder="01-123456">
+                        <input type="text" class="form-control" id="swal-identity_number" placeholder="01-123456">
                     </div>
                 </div>
 
@@ -173,7 +173,7 @@
                     age: $('#swal-age').val(),
                     address: $('#swal-address').val(),
                     telephone: $('#swal-telephone').val(),
-                    identity_number: $('#swal-identity-no').val(),
+                    identity_number: $('#swal-identity_number').val(),
                     date_of_joined: dayjs().format('D MMM YYYY'),
                     is_active: true
                 }
