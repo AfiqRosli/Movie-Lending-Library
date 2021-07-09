@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Member;
+use App\Enums\MemberState;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 
 class MemberController extends Controller
@@ -37,7 +39,19 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $member = new Member($request->member);
+
+        $date_joined = $request->member['date_of_joined'];
+        $member->date_of_joined = Helper::formatDateDB($date_joined);
+        $member->created_time = Helper::formatDateDB($date_joined);
+
+        $member->is_active = MemberState::Active;
+
+        $member->save();
+
+        return response()->json([
+            'added_member' => $member
+        ], 200);
     }
 
     /**
