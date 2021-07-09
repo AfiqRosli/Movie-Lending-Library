@@ -225,5 +225,37 @@
         }
     }
 
+    function generateActionIcons(row) {
+        var editIcon =
+            `
+            <i onclick="openEditModal(this)"
+                data-id="${row.id}"
+                data-name="${row.name}"
+                data-age="${row.age}"
+                data-address="${row.address}"
+                data-telephone="${row.telephone}"
+                data-identity_number="${row.identity_number}"
+                data-date_of_joined="${row.date_of_joined}"
+                data-is_active="${row.is_active}"
+                class="js-action-edit far fa-edit fa-lg mr-2 icon icon__edit">
+            </i>
+            `
+        var deleteIcon =
+            `
+            <i onclick="openDeleteModal(this)"
+                data-id="${row.id}"
+                data-name="${row.name}"
+                data-age="${row.age}"
+                data-address="${row.address}"
+                data-telephone="${row.telephone}"
+                data-identity_number="${row.identity_number}"
+                data-date_of_joined="${row.date_of_joined}"
+                data-is_active="${row.is_active}"
+                class="js-action-delete far fa-trash-alt fa-lg icon icon__delete">
+            </i>
+            `
+
+        return { editIcon, deleteIcon }
+    }
 </script>
 @endsection
