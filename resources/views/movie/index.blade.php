@@ -139,7 +139,8 @@
                     $('#swal-genre').append(new Option(genre, genre))
                 }
                 $('#swal-release-date').datepicker({
-                    uiLibrary: 'bootstrap4'
+                    uiLibrary: 'bootstrap4',
+                    format: 'd mmm yyyy'
                 });
             },
             preConfirm: async () => {
@@ -238,6 +239,7 @@
 
                 $('#swal-release-date').datepicker({
                     uiLibrary: 'bootstrap4',
+                    format: 'd mmm yyyy'
                 });
 
                 $('#swal-release-date').val($(el).attr('data-date'))
