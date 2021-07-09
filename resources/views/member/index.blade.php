@@ -74,5 +74,154 @@
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
 <script>
+    // Data passed from MovieController@index
+    var memberTable
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        memberTable = $('#member-table').DataTable({
+            responsive: true,
+            language: {
+                emptyTable: "No members here ( ´･･)ﾉ(._.`)",
+            },
+            columns: [
+                { data: 'id', visible: false },
+                { data: 'name' },
+                { data: 'age' },
+                { data: 'address' },
+                { data: 'telephone' },
+                { data: 'identity_number' },
+                { data: 'date_of_joined' },
+                { data: 'is_active' },
+                { data: null, orderable: false, render: (data, type, row) => {
+                    var actions = generateActionIcons(row)
+
+                    return '<div class="text-center">' + actions.editIcon + actions.deleteIcon + '</div>'
+                    }
+                },
+            ]
+        });
+
+        $("#js-add-member").click(() => {
+            openCreateModal()
+        })
+    });
+
+    async function openCreateModal() {
+        const {
+            value: member
+        } = await Swal.fire({
+            title: 'Add Member',
+            html: `
+            <form class="text-left">
+                <div class="form-group row">
+                    <label for="swal-name" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="swal-name" placeholder="Afiq Rosli">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="swal-age" class="col-sm-2 col-form-label">Age</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="swal-age" placeholder="23">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="swal-address" class="col-sm-3 col-form-label">Address</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="swal-address" placeholder="iCenter, Simpang 32-37, Kampung Anggerek Desa, Jalan Berakas Bandar Seri Begawan, BB3713">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="swal-telephone" class="col-sm-3 col-form-label">Telephone</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="swal-telephone" placeholder="+673 7117 694">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="swal-identity-no" class="col-sm-3 col-form-label text-nowrap">Identity No.</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="swal-identity-no" placeholder="01-123456">
+                    </div>
+                </div>
+
+                <small>
+                    Date Joined & Is-Active are added automatically after submission.
+                    By default, the Date Joined is the time adding the member and Is-Active is set to true.
+                </small>
+            </form>
+            `,
+            buttonsStyling: false,
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: 'Add',
+            customClass: {
+                confirmButton: 'btn btn-primary btn-lg mr-2',
+                cancelButton: 'btn btn-secondary btn-lg',
+            },
+            focusConfirm: false,
+            preConfirm: async () => {
+                var member = {
+                    name: $('#swal-name').val(),
+                    age: $('#swal-age').val(),
+                    address: $('#swal-address').val(),
+                    telephone: $('#swal-telephone').val(),
+                    identity_number: $('#swal-identity-no').val(),
+                    date_of_joined: dayjs().format('D MMM YYYY'),
+                    is_active: true
+                }
+
+                try {
+                    var result = await $.ajax({
+                        url: './member',
+                        method: 'POST',
+                        data: {
+                            member
+                        }
+                    })
+
+                    member = result.added_member
+
+                    memberTable.row.add({
+                        'id': member.id,
+                        'name': member.name,
+                        'age': member.age,
+                        'address': member.address,
+                        'telephone': member.telephone,
+                        'identity_number': member.identity_number,
+                        'date_of_joined': dayjs(member.date_of_joined).format('D MMM YYYY'),
+                        'is_active': 'Active', // By default, first time adding equates to active
+                        render: (data, type, row) => {
+                            var actions = generateActionIcons(row)
+
+                            return '<div class="text-center">' + actions.editIcon + actions.deleteIcon + '</div>'
+                        }
+                    }).draw();
+                } catch (error) {
+                    console.log(error)
+                    Swal.showValidationMessage('Something went wrong')
+                }
+
+                return member
+            }
+        })
+
+        if (member) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Member Added',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary btn-lg mr-2',
+                }
+            })
+        }
+    }
+
 </script>
 @endsection
