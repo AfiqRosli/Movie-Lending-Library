@@ -90,6 +90,7 @@
             responsive: true,
             language: {
                 emptyTable: "No members here ( ´･･)ﾉ(._.`)",
+                zeroRecords: "No matching members found ( *^-^)ρ(*╯^╰)"
             },
             columns: [
                 { data: 'id', visible: false },
