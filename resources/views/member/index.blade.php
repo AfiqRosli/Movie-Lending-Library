@@ -482,7 +482,7 @@
                 data-identity_number="${row.identity_number}"
                 data-date_of_joined="${row.date_of_joined}"
                 data-is_active="${row.is_active}"
-                class="js-action-edit far fa-edit fa-lg mr-2 icon icon__edit">
+                class="js-action-edit far fa-edit fa-lg icon icon__edit">
             </i>
             `
         var deleteIcon =
