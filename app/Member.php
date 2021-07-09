@@ -17,4 +17,8 @@ class Member extends Model
     ];
 
     public $timestamps = false;
+
+    public function lends() {
+        return $this->hasMany('App\Lend');
+    }
 }

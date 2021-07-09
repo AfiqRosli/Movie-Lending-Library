@@ -13,4 +13,12 @@ class Lend extends Model
         'member_id',
         'lending_date',
     ];
+
+    public function member() {
+        return $this->belongsTo('App\Member');
+    }
+
+    public function movie() {
+        return $this->hasOne('App\Movie');
+    }
 }
