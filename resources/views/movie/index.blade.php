@@ -193,6 +193,136 @@
     }
 
     async function openEditModal(el) {
+        const {
+            value: movie
+        } = await Swal.fire({
+            title: 'Edit Movie',
+            html: `
+        <form class="text-left">
+            <div class="form-group row">
+                <label for="swal-title" class="col-sm-2 col-form-label">Title</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="swal-title" value="${$(el).attr('data-title')}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="swal-genre" class="col-sm-2 col-form-label">Genre</label>
+                <div class="col-sm-10">
+                    <select id="swal-genre" class="form-control">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="swal-release-date" class="col-sm-4 col-form-label">Release Date</label>
+                <div class="col-sm-8">
+                    <input id="swal-release-date" width="276">
+                </div>
+            </div>
+        </form>
+        `,
+            buttonsStyling: false,
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: 'Update',
+            customClass: {
+                confirmButton: 'btn btn-primary btn-lg mr-2',
+                cancelButton: 'btn btn-secondary btn-lg',
+            },
+            focusConfirm: false,
+            didOpen: () => {
+                for (let index = 0; index < movieGenres.length; index++) {
+                    const genre = movieGenres[index];
+                    $('#swal-genre').append(new Option(genre, genre))
+                }
+                $('#swal-genre').val($(el).attr('data-genre'))
+
+                $('#swal-release-date').datepicker({
+                    uiLibrary: 'bootstrap4',
+                });
+
+                $('#swal-release-date').val($(el).attr('data-date'))
+            },
+            preConfirm: async () => {
+                var movie = {
+                    title: $('#swal-title').val(),
+                    genre: $('#swal-genre').val(),
+                    date: $('#swal-release-date').val(),
+                }
+
+                try {
+                    var result = await $.ajax({
+                        url: './movie/' + $(el).data('id'),
+                        method: 'PATCH',
+                        data: {
+                            movie
+                        }
+                    })
+
+                    movie = result.updated_movie
+
+                    // Update the Frontend data
+                    var row = {}
+                    movieTable.rows((index, data, node) => {
+                        if (parseInt(data.id) == $(el).data('id')) {
+                            row.index = parseInt(data.id)
+                            row.data = data
+                            row.node = node
+                        }
+                    })
+
+                    var titleColumn = row.node.cells[0]
+                    var genreColumn = row.node.cells[1]
+                    var dateColumn = row.node.cells[2]
+                    var actionColumn = row.node.cells[3]
+                    var actionEditIcon = $(actionColumn).find('svg.js-action-edit')
+                    var actionDeleteIcon = $(actionColumn).find('svg.js-action-delete')
+
+                    // Fallback if browser does not support SVG for FontAwesome and used i tag instead
+                    if ($(actionEditIcon).length == 0) {
+                        actionEditIcon = $(actionColumn).find('i.js-action-edit')
+                    }
+
+                    if ($(actionDeleteIcon).length == 0) {
+                        actionDeleteIcon = $(actionColumn).find('i.js-action-delete')
+                    }
+
+                    $(titleColumn).html(movie.title)
+                    $(genreColumn).html(movie.genre)
+                    $(dateColumn).html(dayjs(movie.released_date).format('D MMM YYYY'))
+
+                    $(actionEditIcon).attr('data-title', movie.title)
+                    $(actionEditIcon).attr('data-genre', movie.genre)
+                    $(actionEditIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
+
+                    $(actionDeleteIcon).attr('data-title', movie.title)
+                    $(actionDeleteIcon).attr('data-genre', movie.genre)
+                    $(actionDeleteIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
+
+                    // NOTE: REQUIRES PAYED EDITOR PACKAGE
+                    // movieTable.row(':eq(0)').edit({
+                    //     title: movie.title,
+                    //     genre: movie.genre,
+                    //     date: dayjs(movie.date).format('D MMM YYYY'),
+                    // })
+                } catch (error) {
+                    console.log(error)
+                    Swal.showValidationMessage('Something went wrong')
+                }
+
+                return movie
+            }
+        })
+
+        if (movie) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Movie Info Updated',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary btn-lg mr-2',
+                }
+            })
+        }
     }
 
     function generateActionIcons(row) {
