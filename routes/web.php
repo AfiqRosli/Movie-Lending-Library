@@ -19,6 +19,7 @@ Route::name('movie.')->group(function () {
     Route::get('movie', 'MovieController@index')->name('index');
     Route::post('movie', 'MovieController@store')->name('store');
     Route::patch('movie/{movie}', 'MovieController@update')->name('update');
+    Route::delete('movie/{movie}', 'MovieController@destroy')->name('delete');
 });
 
 Route::name('member.')->group(function () {
