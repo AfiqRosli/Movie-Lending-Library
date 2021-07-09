@@ -77,6 +77,10 @@
 
         movieTable = $('#movie-table').DataTable({
             responsive: true,
+            language: {
+                emptyTable: "No movies here?!?! (╯°□°）╯︵ ┻━┻",
+                zeroRecords: "No matching movies found （；´д｀）ゞ"
+            },
             columns: [
                 { data: 'id', visible: false },
                 { data: 'title' },
