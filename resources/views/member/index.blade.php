@@ -225,6 +225,19 @@
         }
     }
 
+    function getTableRow(table, memberId) {
+        var row = {}
+
+        table.rows((index, data, node) => {
+            if (parseInt(data.id) == memberId) {
+                row.index = parseInt(data.id)
+                row.data = data
+                row.node = node
+            }
+        })
+
+        return row
+    }
     function generateActionIcons(row) {
         var editIcon =
             `
