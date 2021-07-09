@@ -85,7 +85,18 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
-        //
+        $member->update($request->member);
+
+        $date_joined = $request->member['date_of_joined'];
+        $member->date_of_joined = Helper::formatDateDB($date_joined);
+
+        $member->is_active = $request->member['is_active'];
+
+        $member->save();
+
+        return response()->json([
+            'updated_member' => $member
+        ], 200);
     }
 
     /**
