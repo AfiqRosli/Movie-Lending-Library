@@ -246,6 +246,7 @@
             },
             preConfirm: async () => {
                 var movie = {
+                    id: $(el).data('id'),
                     title: $('#swal-title').val(),
                     genre: $('#swal-genre').val(),
                     date: $('#swal-release-date').val(),
@@ -253,7 +254,7 @@
 
                 try {
                     var result = await $.ajax({
-                        url: './movie/' + $(el).data('id'),
+                        url: './movie/' + movie.id,
                         method: 'PATCH',
                         data: {
                             movie
@@ -263,49 +264,9 @@
                     movie = result.updated_movie
 
                     // Update the Frontend data
-                    var row = {}
-                    movieTable.rows((index, data, node) => {
-                        if (parseInt(data.id) == $(el).data('id')) {
-                            row.index = parseInt(data.id)
-                            row.data = data
-                            row.node = node
-                        }
-                    })
-
-                    var titleColumn = row.node.cells[0]
-                    var genreColumn = row.node.cells[1]
-                    var dateColumn = row.node.cells[2]
-                    var actionColumn = row.node.cells[3]
-                    var actionEditIcon = $(actionColumn).find('svg.js-action-edit')
-                    var actionDeleteIcon = $(actionColumn).find('svg.js-action-delete')
-
-                    // Fallback if browser does not support SVG for FontAwesome and used i tag instead
-                    if ($(actionEditIcon).length == 0) {
-                        actionEditIcon = $(actionColumn).find('i.js-action-edit')
-                    }
-
-                    if ($(actionDeleteIcon).length == 0) {
-                        actionDeleteIcon = $(actionColumn).find('i.js-action-delete')
-                    }
-
-                    $(titleColumn).html(movie.title)
-                    $(genreColumn).html(movie.genre)
-                    $(dateColumn).html(dayjs(movie.released_date).format('D MMM YYYY'))
-
-                    $(actionEditIcon).attr('data-title', movie.title)
-                    $(actionEditIcon).attr('data-genre', movie.genre)
-                    $(actionEditIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
-
-                    $(actionDeleteIcon).attr('data-title', movie.title)
-                    $(actionDeleteIcon).attr('data-genre', movie.genre)
-                    $(actionDeleteIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
-
-                    // NOTE: REQUIRES PAYED EDITOR PACKAGE
-                    // movieTable.row(':eq(0)').edit({
-                    //     title: movie.title,
-                    //     genre: movie.genre,
-                    //     date: dayjs(movie.date).format('D MMM YYYY'),
-                    // })
+                    var row = getTableRow(movieTable, movie.id)
+                    var column = getRowColumns(row)
+                    updateTableRowData(column, movie)
                 } catch (error) {
                     console.log(error)
                     Swal.showValidationMessage('Something went wrong')
@@ -325,6 +286,63 @@
                 }
             })
         }
+    }
+
+    function getTableRow(table, movieId) {
+        var row = {}
+
+        table.rows((index, data, node) => {
+            if (parseInt(data.id) == movieId) {
+                row.index = parseInt(data.id)
+                row.data = data
+                row.node = node
+            }
+        })
+
+        return row
+    }
+
+    function getRowColumns(row) {
+        var column = {}
+
+        column.title = row.node.cells[0]
+        column.genre = row.node.cells[1]
+        column.date = row.node.cells[2]
+        column.action = row.node.cells[3]
+        column.action.editIcon = $(column.action).find('svg.js-action-edit')
+        column.action.deleteIcon = $(column.action).find('svg.js-action-delete')
+
+        // Fallback if browser does not support SVG for FontAwesome and used i tag instead
+        if ($(column.action.editIcon).length == 0) {
+            column.action.editIcon = $(column.action).find('i.js-action-edit')
+        }
+
+        if ($(column.action.deleteIcon).length == 0) {
+            column.action.deleteIcon = $(column.action).find('i.js-action-delete')
+        }
+
+        return column
+    }
+
+    function updateTableRowData(column, movie) {
+        $(column.title).html(movie.title)
+        $(column.genre).html(movie.genre)
+        $(column.date).html(dayjs(movie.released_date).format('D MMM YYYY'))
+
+        $(column.action.editIcon).attr('data-title', movie.title)
+        $(column.action.editIcon).attr('data-genre', movie.genre)
+        $(column.action.editIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
+
+        $(column.action.deleteIcon).attr('data-title', movie.title)
+        $(column.action.deleteIcon).attr('data-genre', movie.genre)
+        $(column.action.deleteIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
+
+        // NOTE: REQUIRES PAYED EDITOR PACKAGE
+        // movieTable.row(':eq(0)').edit({
+        //     title: movie.title,
+        //     genre: movie.genre,
+        //     date: dayjs(movie.date).format('D MMM YYYY'),
+        // })
     }
 
     function generateActionIcons(row) {
