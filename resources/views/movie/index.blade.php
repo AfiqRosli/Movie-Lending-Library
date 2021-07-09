@@ -85,7 +85,7 @@
                 { data: 'id', visible: false },
                 { data: 'title' },
                 { data: 'genre' },
-                { data: 'date' },
+                { data: 'released_date' },
                 { data: null, orderable: false, render: (data, type, row) => {
                     var actions = generateActionIcons(row)
 
@@ -121,9 +121,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="swal-release-date" class="col-sm-4 col-form-label">Release Date</label>
+                    <label for="swal-released_date" class="col-sm-4 col-form-label">Release Date</label>
                     <div class="col-sm-8">
-                        <input id="swal-release-date" width="276">
+                        <input id="swal-released_date" width="276">
                     </div>
                 </div>
             </form>
@@ -142,7 +142,7 @@
                     const genre = movieGenres[index];
                     $('#swal-genre').append(new Option(genre, genre))
                 }
-                $('#swal-release-date').datepicker({
+                $('#swal-released_date').datepicker({
                     uiLibrary: 'bootstrap4',
                     format: 'd mmm yyyy'
                 });
@@ -151,7 +151,7 @@
                 var movie = {
                     title: $('#swal-title').val(),
                     genre: $('#swal-genre').val(),
-                    date: $('#swal-release-date').val(),
+                    date: $('#swal-released_date').val(),
                 }
 
                 try {
@@ -169,7 +169,7 @@
                         'id': movie.id,
                         'title': movie.title,
                         'genre': movie.genre,
-                        'date': dayjs(movie.released_date).format('D MMM YYYY'),
+                        'released_date': dayjs(movie.released_date).format('D MMM YYYY'),
                         render: (data, type, row) => {
                             var actions = generateActionIcons(row)
 
@@ -218,9 +218,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="swal-release-date" class="col-sm-4 col-form-label">Release Date</label>
+                <label for="swal-released_date" class="col-sm-4 col-form-label">Release Date</label>
                 <div class="col-sm-8">
-                    <input id="swal-release-date" width="276">
+                    <input id="swal-released_date" width="276">
                 </div>
             </div>
         </form>
@@ -241,19 +241,19 @@
                 }
                 $('#swal-genre').val($(el).attr('data-genre'))
 
-                $('#swal-release-date').datepicker({
+                $('#swal-released_date').datepicker({
                     uiLibrary: 'bootstrap4',
                     format: 'd mmm yyyy'
                 });
 
-                $('#swal-release-date').val($(el).attr('data-date'))
+                $('#swal-released_date').val($(el).attr('data-released_date'))
             },
             preConfirm: async () => {
                 var movie = {
                     id: $(el).data('id'),
                     title: $('#swal-title').val(),
                     genre: $('#swal-genre').val(),
-                    date: $('#swal-release-date').val(),
+                    date: $('#swal-released_date').val(),
                 }
 
                 try {
@@ -306,7 +306,7 @@
             <div class="text-left">
                 <p class="mb-1"><b>Title:</b> ${$(el).data('title')}</p>
                 <p class="mb-1"><b>Genre:</b> ${$(el).data('genre')}</p>
-                <p><b>Release Date:</b> ${$(el).data('date')}</p>
+                <p><b>Release Date:</b> ${$(el).data('released_date')}</p>
             </div>
             `,
             buttonsStyling: false,
@@ -364,7 +364,7 @@
 
         column.title = row.node.cells[0]
         column.genre = row.node.cells[1]
-        column.date = row.node.cells[2]
+        column.released_date = row.node.cells[2]
         column.action = row.node.cells[3]
         column.action.editIcon = $(column.action).find('svg.js-action-edit')
         column.action.deleteIcon = $(column.action).find('svg.js-action-delete')
@@ -385,7 +385,7 @@
         // Free Method
         movieTable.cell(column.title).data(movie.title)
         movieTable.cell(column.genre).data(movie.genre)
-        movieTable.cell(column.date).data(dayjs(movie.released_date).format('D MMM YYYY'))
+        movieTable.cell(column.released_date).data(dayjs(movie.released_date).format('D MMM YYYY'))
 
         // NOTE: Alternative Method - Requires Payed Editor Package (UNTESTED)
         // movieTable.row(':eq(0)').edit({
@@ -396,11 +396,11 @@
 
         $(column.action.editIcon).attr('data-title', movie.title)
         $(column.action.editIcon).attr('data-genre', movie.genre)
-        $(column.action.editIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
+        $(column.action.editIcon).attr('data-released_date', dayjs(movie.released_date).format('D MMM YYYY'))
 
         $(column.action.deleteIcon).attr('data-title', movie.title)
         $(column.action.deleteIcon).attr('data-genre', movie.genre)
-        $(column.action.deleteIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
+        $(column.action.deleteIcon).attr('data-released_date', dayjs(movie.released_date).format('D MMM YYYY'))
     }
 
     function generateActionIcons(row) {
@@ -410,7 +410,7 @@
                 data-id="${row.id}"
                 data-title="${row.title}"
                 data-genre="${row.genre}"
-                data-date="${row.date}"
+                data-released_date="${row.released_date}"
                 class="js-action-edit far fa-edit fa-lg mr-2 icon icon__edit">
             </i>
             `
@@ -420,7 +420,7 @@
                 data-id="${row.id}"
                 data-title="${row.title}"
                 data-genre="${row.genre}"
-                data-date="${row.date}"
+                data-released_date="${row.released_date}"
                 class="js-action-delete far fa-trash-alt fa-lg icon icon__delete">
             </i>
             `
