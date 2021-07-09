@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lend extends Model
 {
-    //
+    protected $table = 'lends';
+
+    protected $fillable = [
+        'movie_id',
+        'member_id',
+        'lending_date',
+    ];
 }
