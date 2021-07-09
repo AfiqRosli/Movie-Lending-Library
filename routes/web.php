@@ -24,6 +24,9 @@ Route::name('movie.')->group(function () {
 
 Route::name('member.')->group(function () {
     Route::get('member', 'MemberController@index')->name('index');
+    Route::post('member', 'MemberController@store')->name('store');
+    Route::patch('member/{member}', 'MemberController@update')->name('update');
+    Route::delete('member/{member}', 'MemberController@destroy')->name('delete');
 });
 
 Route::name('lend.')->group(function () {
