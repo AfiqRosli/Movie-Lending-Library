@@ -378,9 +378,17 @@
     }
 
     function updateTableRowData(column, movie) {
-        $(column.title).html(movie.title)
-        $(column.genre).html(movie.genre)
-        $(column.date).html(dayjs(movie.released_date).format('D MMM YYYY'))
+        // Free Method
+        movieTable.cell(column.title).data(movie.title)
+        movieTable.cell(column.genre).data(movie.genre)
+        movieTable.cell(column.date).data(dayjs(movie.released_date).format('D MMM YYYY'))
+
+        // NOTE: Alternative Method - Requires Payed Editor Package (UNTESTED)
+        // movieTable.row(':eq(0)').edit({
+        //     title: movie.title,
+        //     genre: movie.genre,
+        //     date: dayjs(movie.date).format('D MMM YYYY'),
+        // })
 
         $(column.action.editIcon).attr('data-title', movie.title)
         $(column.action.editIcon).attr('data-genre', movie.genre)
@@ -389,13 +397,6 @@
         $(column.action.deleteIcon).attr('data-title', movie.title)
         $(column.action.deleteIcon).attr('data-genre', movie.genre)
         $(column.action.deleteIcon).attr('data-date', dayjs(movie.released_date).format('D MMM YYYY'))
-
-        // NOTE: REQUIRES PAYED EDITOR PACKAGE
-        // movieTable.row(':eq(0)').edit({
-        //     title: movie.title,
-        //     genre: movie.genre,
-        //     date: dayjs(movie.date).format('D MMM YYYY'),
-        // })
     }
 
     function generateActionIcons(row) {
