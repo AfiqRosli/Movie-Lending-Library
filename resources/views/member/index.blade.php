@@ -349,6 +349,58 @@
         }
     }
 
+    async function openDeleteModal(el) {
+        var memberId = $(el).data('id')
+
+        var swalResponse = await Swal.fire({
+            title: 'Delete Member',
+            html:
+            `
+            <div class="alert alert-danger" role="alert">
+                <p class="m-0">Are you sure you want to delete this member?</p>
+                <p class="m-0">This action is irreversible</p>
+            </div>
+            <div class="text-left">
+                <p class="mb-1"><b>Name:</b> ${$(el).data('name')}</p>
+                <p class="mb-1"><b>Date Joined:</b> ${$(el).data('date_of_joined')}</p>
+            </div>
+            `,
+            buttonsStyling: false,
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: 'Delete',
+            customClass: {
+                confirmButton: 'btn btn-danger btn-lg mr-2',
+                cancelButton: 'btn btn-secondary btn-lg',
+            },
+            focusCancel: true,
+            preConfirm: async () => {
+                try {
+                    var response = await $.ajax({
+                        url: './member/' + memberId,
+                        method: 'DELETE'
+                    })
+
+                    if (response.member_deleted) {
+                        var row = getTableRow(memberTable, memberId)
+                        memberTable.row(row.node).remove().draw(false)
+                    }
+                } catch (error) {
+                    console.log(error)
+                    Swal.showValidationMessage('Something went wrong')
+                }
+            }
+        })
+
+        if (swalResponse.isConfirmed) {
+            Swal.fire(
+                'Deleted!',
+                'Member has been deleted.',
+                'success'
+            )
+        }
+    }
+
     function getTableRow(table, memberId) {
         var row = {}
 
