@@ -38,17 +38,19 @@
         </tr>
     </thead>
     <tbody>
+        @foreach ($members as $member)
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{{ $member->id }}</td>
+            <td>{{ $member->name }}</td>
+            <td>{{ $member->age }}</td>
+            <td>{{ $member->address }}</td>
+            <td>{{ $member->telephone }}</td>
+            <td>{{ $member->identity_number }}</td>
+            <td>{{ Helper::formatDate($member->date_of_joined) }}</td>
+            <td>{{ $member->is_active }}</td>
             <td></td>
         </tr>
+        @endforeach
     </tbody>
     <tfoot>
         <tr>
