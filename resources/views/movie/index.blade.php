@@ -192,6 +192,8 @@
         }
     }
 
+    async function openEditModal(el) {
+    }
 
     function generateActionIcons(row) {
         var editIcon =
