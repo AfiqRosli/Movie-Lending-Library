@@ -82,7 +82,7 @@
                 { data: 'title' },
                 { data: 'genre' },
                 { data: 'date' },
-                { data: null, render: (data, type, row) => {
+                { data: null, orderable: false, render: (data, type, row) => {
                     var actions = generateActionIcons(row)
 
                     return '<div class="text-center">' + actions.editIcon + actions.deleteIcon + '</div>'
