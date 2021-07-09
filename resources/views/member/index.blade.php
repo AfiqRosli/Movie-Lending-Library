@@ -47,7 +47,7 @@
             <td>{{ $member->telephone }}</td>
             <td>{{ $member->identity_number }}</td>
             <td>{{ Helper::formatDate($member->date_of_joined) }}</td>
-            <td>{{ $member->is_active }}</td>
+            <td>{{ $member->is_active == App\Enums\MemberState::Active ? 'Active' : 'Inactive' }}</td>
             <td></td>
         </tr>
         @endforeach
