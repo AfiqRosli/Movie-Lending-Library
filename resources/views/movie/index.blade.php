@@ -288,6 +288,59 @@
         }
     }
 
+    async function openDeleteModal(el) {
+        var movieId = $(el).data('id')
+
+        var swalResponse = await Swal.fire({
+            title: 'Delete Movie',
+            html:
+            `
+            <div class="alert alert-danger" role="alert">
+                <p class="m-0">Are you sure you want to delete this movie?</p>
+                <p class="m-0">This action is irreversible</p>
+            </div>
+            <div class="text-left">
+                <p class="mb-1"><b>Title:</b> ${$(el).data('title')}</p>
+                <p class="mb-1"><b>Genre:</b> ${$(el).data('genre')}</p>
+                <p><b>Release Date:</b> ${$(el).data('date')}</p>
+            </div>
+            `,
+            buttonsStyling: false,
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: 'Delete',
+            customClass: {
+                confirmButton: 'btn btn-danger btn-lg mr-2',
+                cancelButton: 'btn btn-secondary btn-lg',
+            },
+            focusCancel: true,
+            preConfirm: async () => {
+                try {
+                    var response = await $.ajax({
+                        url: './movie/' + movieId,
+                        method: 'DELETE'
+                    })
+
+                    if (response.movie_deleted) {
+                        var row = getTableRow(movieTable, movieId)
+                        movieTable.row(row.node).remove().draw(false)
+                    }
+                } catch (error) {
+                    console.log(error)
+                    Swal.showValidationMessage('Something went wrong')
+                }
+            }
+        })
+
+        if (swalResponse.isConfirmed) {
+            Swal.fire(
+                'Deleted!',
+                'Movie has been deleted.',
+                'success'
+            )
+        }
+    }
+
     function getTableRow(table, movieId) {
         var row = {}
 
