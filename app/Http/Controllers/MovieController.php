@@ -84,7 +84,15 @@ class MovieController extends Controller
      */
     public function update(Request $request, Movie $movie)
     {
-        //
+        $movie->title = $request->movie['title'];
+        $movie->genre = $request->movie['genre'];
+        $movie->released_date = date('Y-m-d', strtotime($request->movie['date']));
+
+        $movie->save();
+
+        return response()->json([
+            'updated_movie' => $movie
+        ], 200);
     }
 
     /**
