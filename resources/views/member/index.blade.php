@@ -225,6 +225,130 @@
         }
     }
 
+    async function openEditModal(el) {
+        const {
+            value: member
+        } = await Swal.fire({
+            title: 'Edit Member',
+            html: `
+        <form class="text-left">
+            <div class="form-group row">
+                <label for="swal-name" class="col-sm-2 col-form-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="swal-name" value="${$(el).attr('data-name')}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="swal-age" class="col-sm-2 col-form-label">Age</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="swal-age" value="${$(el).attr('data-age')}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="swal-address" class="col-sm-3 col-form-label">Address</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="swal-address" value="${$(el).attr('data-address')}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="swal-telephone" class="col-sm-3 col-form-label">Telephone</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="swal-telephone" value="${$(el).attr('data-telephone')}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="swal-identity_number" class="col-sm-3 col-form-label text-nowrap">Identity No.</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="swal-identity_number" value="${$(el).attr('data-identity_number')}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="swal-date_of_joined" class="col-sm-3 col-form-label text-nowrap">Date Joined</label>
+                <div class="col-sm-9">
+                    <input id="swal-date_of_joined">
+                </div>
+            </div>
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="swal-is_active">
+                <label class="custom-control-label" for="swal-is_active">Is Active</label>
+            </div>
+        </form>
+        `,
+            buttonsStyling: false,
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: 'Update',
+            customClass: {
+                confirmButton: 'btn btn-primary btn-lg mr-2',
+                cancelButton: 'btn btn-secondary btn-lg',
+            },
+            focusConfirm: false,
+            didOpen: () => {
+                $('#swal-date_of_joined').datepicker({
+                    uiLibrary: 'bootstrap4',
+                    format: 'd mmm yyyy'
+                });
+
+                let date_of_joined = dayjs($(el).attr('data-date_of_joined')).format('D MMM YYYY')
+                $('#swal-date_of_joined').val(date_of_joined)
+
+                if (parseInt($(el).attr('data-is_active')) == {{ App\Enums\MemberState::Active }}) {
+                    $('#swal-is_active').prop('checked', true)
+                } else {
+                    $('#swal-is_active').prop('checked', false)
+                }
+            },
+            preConfirm: async () => {
+                var member = {
+                    id: $(el).data('id'),
+                    name: $('#swal-name').val(),
+                    age: $('#swal-age').val(),
+                    address: $('#swal-address').val(),
+                    telephone: $('#swal-telephone').val(),
+                    identity_number: $('#swal-identity_number').val(),
+                    date_of_joined: $('#swal-date_of_joined').val(),
+                    is_active: Number($('#swal-is_active').prop('checked'))
+                }
+
+                try {
+                    var result = await $.ajax({
+                        url: './member/' + member.id,
+                        method: 'PATCH',
+                        data: {
+                            member
+                        }
+                    })
+
+                    member = result.updated_member
+
+                    // Update the Frontend data
+                    var row = getTableRow(memberTable, member.id)
+                    var column = getRowColumns(row)
+                    updateTableRowData(column, member)
+
+                    console.log(row)
+                    console.log(column)
+                } catch (error) {
+                    console.log(error)
+                    Swal.showValidationMessage('Something went wrong')
+                }
+
+                return member
+            }
+        })
+
+        if (member) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Member Info Updated',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary btn-lg mr-2',
+                }
+            })
+        }
+    }
+
     function getTableRow(table, memberId) {
         var row = {}
 
