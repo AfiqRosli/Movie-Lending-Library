@@ -265,6 +265,34 @@
         return column
     }
 
+    function updateTableRowData(column, member) {
+        var is_active_text = member.is_active == {{ App\Enums\MemberState::Active }} ? 'Active' : 'Inactive'
+
+        memberTable.cell(column.name).data(member.name)
+        memberTable.cell(column.age).data(member.age)
+        memberTable.cell(column.address).data(member.address)
+        memberTable.cell(column.telephone).data(member.telephone)
+        memberTable.cell(column.identity_number).data(member.identity_number)
+        memberTable.cell(column.date_of_joined).data(dayjs(member.date_of_joined).format('D MMM YYYY'))
+        memberTable.cell(column.is_active).data(is_active_text)
+
+        $(column.action.editIcon).attr('data-name', member.name)
+        $(column.action.editIcon).attr('data-age', member.age)
+        $(column.action.editIcon).attr('data-address', member.address)
+        $(column.action.editIcon).attr('data-telephone', member.telephone)
+        $(column.action.editIcon).attr('data-identity_number', member.identity_number)
+        $(column.action.editIcon).attr('data-date_of_joined', dayjs(member.date_of_joined).format('D MMM YYYY'))
+        $(column.action.editIcon).attr('data-is_active', member.is_active)
+
+        $(column.action.deleteIcon).attr('data-name', member.name)
+        $(column.action.deleteIcon).attr('data-age', member.age)
+        $(column.action.deleteIcon).attr('data-address', member.address)
+        $(column.action.deleteIcon).attr('data-telephone', member.telephone)
+        $(column.action.deleteIcon).attr('data-identity_number', member.identity_number)
+        $(column.action.deleteIcon).attr('data-date_of_joined', dayjs(member.date_of_joined).format('D MMM YYYY'))
+        $(column.action.deleteIcon).attr('data-is_active', member.is_active)
+    }
+
     function generateActionIcons(row) {
         var editIcon =
             `
