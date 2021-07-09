@@ -202,6 +202,7 @@
                 data-id="${row.id}"
                 data-title="${row.title}"
                 data-genre="${row.genre}"
+                data-date="${row.date}"
                 class="js-action-edit far fa-edit fa-lg mr-2">
             </i>
             `
