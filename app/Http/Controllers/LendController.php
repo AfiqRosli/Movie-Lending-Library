@@ -61,7 +61,15 @@ class LendController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lend = new Lend($request->lend);
+        $lend->lending_date = date('Y-m-d H:i:s');
+        $lend->created_time = date('Y-m-d H:i:s');
+
+        $lend->save();
+
+        return response()->json([
+            'lend_added' => true
+        ], 200);
     }
 
     /**
