@@ -272,6 +272,14 @@
         }
     }
 
+    function removeMovieFromDataTable(movieTable, movieId) {
+        var row = getTableRow(movieTable, movieId)
+        movieTable.row(row.node).remove().draw(false)
+
+        movieTable.rows({ selected: true }).deselect()
+        memberTable.rows({ selected: true }).deselect()
+    }
+
     function updateConfirmSelectionMovie(movie) {
         var titleEl = $('#js-movie-title'),
             genreEl = $('#js-movie-genre'),
