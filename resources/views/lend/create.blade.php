@@ -201,8 +201,48 @@
             isSelectionComplete()
         })
 
-        $("#js-lend-movie").click(() => {
+        $("#js-lend-movie").click(async () => {
+            var lend = {
+                movie_id: selectedMovie.id,
+                member_id: selectedMember.id,
+                lateness_charge: 50 // 50 cents
+            }
 
+            const swalResponse = await Swal.fire({
+                title: 'Lend Movie',
+                html:
+                `
+                <p>Confirm lend <strong>${selectedMovie.title}</strong> to <strong>${selectedMember.name}</strong></p>
+                <small class="d-block text-left">
+                    After 30 days since the lending date;
+                    you will be charged 50 cents per day until the movie is return.
+                </small>
+                `,
+                buttonsStyling: false,
+                showCancelButton: true,
+                showLoaderOnConfirm: true,
+                confirmButtonText: 'Confirm',
+                customClass: {
+                    confirmButton: 'btn btn-primary btn-lg mr-2',
+                    cancelButton: 'btn btn-secondary btn-lg',
+                },
+                focusConfirm: false,
+                didOpen: () => {},
+                preConfirm: async () => {
+                    await postLend(lend)
+                }
+            })
+
+            if (swalResponse.isConfirmed) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Movie Lended',
+                    buttonsStyling: false,
+                    customClass: {
+                        confirmButton: 'btn btn-primary btn-lg mr-2',
+                    }
+                })
+            }
         })
     });
 
