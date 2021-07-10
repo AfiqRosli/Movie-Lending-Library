@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Lend;
+use App\Member;
+use App\Movie;
 use Illuminate\Http\Request;
 
 class LendController extends Controller
@@ -28,7 +30,10 @@ class LendController extends Controller
      */
     public function create()
     {
-        //
+        $members = Member::all();
+        $movies = Movie::all();
+
+        return view('lend.create', compact('members', 'movies'));
     }
 
     /**
