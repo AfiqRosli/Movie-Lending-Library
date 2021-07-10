@@ -96,10 +96,23 @@
     </tfoot>
 </table>
 
-<h2 class="mt-5">Confirm Selection</h2>
+<div class="card my-5">
+    <h2 class="card-header">Confirm Selections</h2>
+    <div class="card-body">
+        <h5 class="card-title">Movie Info</h5>
+        <p id="js-movie-title" class="card-text"><b>Title:</b></p>
+        <p id="js-movie-genre" class="card-text"><b>Genre:</b></p>
+        <p id="js-movie-released_date" class="card-text"><b>Released Date:</b></p>
 
-<div class="d-flex flex-row-reverse mb-2">
-    <button id="js-lend-movie" type="button" class="btn btn-primary">Lend Movie</button>
+        <h5 class="card-title mt-4">Member Info</h5>
+        <p id="js-member-name" class="card-text"><b>Name:</b></p>
+        <p id="js-member-telephone" class="card-text"><b>Telephone:</b></p>
+        <p id="js-member-identity_number" class="card-text"><b>Identity No.:</b></p>
+
+        <div class="d-flex flex-row-reverse">
+            <button id="js-lend-movie" type="button" class="btn btn-primary" disabled>Lend Movie</button>
+        </div>
+    </div>
 </div>
 
 @endsection
