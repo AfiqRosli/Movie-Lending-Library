@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Lend;
 use App\Member;
 use App\Movie;
+use App\Enums\MemberState;
 use Illuminate\Http\Request;
 
 class LendController extends Controller
@@ -30,10 +31,26 @@ class LendController extends Controller
      */
     public function create()
     {
-        $members = Member::all();
-        $movies = Movie::all();
+        $activeMembers = Member::where('is_active', '=', MemberState::Active)->get();
 
-        return view('lend.create', compact('members', 'movies'));
+        $neverLendedMovies = Movie::doesntHave('lend')->get();
+
+        // Returned movies may get lended again
+        $returnedMovies = Movie::whereHas('lend', function ($query) {
+            $query->where('returned_date', '<>', null);
+        })->get();
+
+        // Currently lended movies may exist in the $returnedMovies variable;
+        // Was returned (update initial record) but lended again (create duplicate record with null value on returned_date)
+        $lendedMovies = Movie::whereHas('lend', function ($query) {
+            $query->where('returned_date', '=', null);
+        })->get();
+
+        $returnedMoviesInPossession = $returnedMovies->diff($lendedMovies);
+
+        $availableMovies = $neverLendedMovies->merge($returnedMoviesInPossession);
+
+        return view('lend.create', compact('activeMembers', 'availableMovies'));
     }
 
     /**
