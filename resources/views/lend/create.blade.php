@@ -246,6 +246,32 @@
         })
     });
 
+    async function postLend(lend) {
+        try {
+            const response = await $.ajax({
+                url: '/lend',
+                method: 'POST',
+                data: {
+                    lend
+                }
+            })
+
+            if (response.lend_added) {
+                var movieId = selectedMovie.id
+                selectedMovie = null
+                selectedMember = null
+
+                removeMovieFromDataTable(movieTable, movieId)
+                updateConfirmSelectionMovie()
+                updateConfirmSelectionMember()
+                isSelectionComplete()
+            }
+        } catch (error) {
+            console.log(error)
+            Swal.showValidationMessage('Something went wrong')
+        }
+    }
+
     function updateConfirmSelectionMovie(movie) {
         var titleEl = $('#js-movie-title'),
             genreEl = $('#js-movie-genre'),
