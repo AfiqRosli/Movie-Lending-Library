@@ -36,7 +36,3 @@ Route::name('lend.')->group(function () {
 
     Route::post('lend', 'LendController@store')->name('store');
 });
-
-Route::name('return.')->group(function () {
-    Route::get('return', 'ReturnController@index')->name('index');
-});
