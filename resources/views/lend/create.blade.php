@@ -124,7 +124,7 @@
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
 <script>
-    var movieTable, memberTable
+    var movieTable, memberTable, selectedMovie = null, selectedMember = null
 
     $(document).ready(function () {
         $.ajaxSetup({
@@ -177,11 +177,73 @@
             }
         });
 
+        movieTable.on('select', (e, dt, type, indexes) => {
+            selectedMovie = dt.data()
+            updateConfirmSelectionMovie(selectedMovie)
+            isSelectionComplete()
+        })
+
+        memberTable.on('select', (e, dt, type, indexes) => {
+            selectedMember = dt.data()
+            updateConfirmSelectionMember(selectedMember)
+            isSelectionComplete()
+        })
+
+        movieTable.on('deselect', (e, dt, type, indexes) => {
+           selectedMovie = null
+           updateConfirmSelectionMovie(selectedMovie)
+           isSelectionComplete()
+        })
+
+        memberTable.on('deselect', (e, dt, type, indexes) => {
+            selectedMember = null
+            updateConfirmSelectionMember(selectedMember)
+            isSelectionComplete()
+        })
+
         $("#js-lend-movie").click(() => {
-            movieTable.rows({
-                selected: true
-            }).data()
+
         })
     });
+
+    function updateConfirmSelectionMovie(movie) {
+        var titleEl = $('#js-movie-title'),
+            genreEl = $('#js-movie-genre'),
+            releasedDateEl = $('#js-movie-released_date')
+
+        if (movie) {
+            titleEl.html(`<b>Title:</b> ${movie.title}`)
+            genreEl.html(`<b>Genre:</b> ${movie.genre}`)
+            releasedDateEl.html(`<b>Released Date:</b> ${movie.released_date}`)
+        } else {
+            titleEl.html(`<b>Title:</b>`)
+            genreEl.html(`<b>Genre:</b>`)
+            releasedDateEl.html(`<b>Released Date:</b>`)
+        }
+    }
+
+    function updateConfirmSelectionMember(member) {
+        var nameEl = $('#js-member-name'),
+            telephoneEl = $('#js-member-telephone'),
+            identityNoEl = $('#js-member-identity_number')
+
+        if (member) {
+            nameEl.html(`<b>Name:</b> ${member.name}`)
+            telephoneEl.html(`<b>Telephone:</b> ${member.telephone}`)
+            identityNoEl.html(`<b>Identity No.:</b> ${member.identity_number}`)
+        } else {
+            nameEl.html(`<b>Name:</b>`)
+            telephoneEl.html(`<b>Telephone:</b>`)
+            identityNoEl.html(`<b>Identity No.:</b>`)
+        }
+    }
+
+    function isSelectionComplete() {
+        if (selectedMovie && selectedMember) {
+            $('#js-lend-movie').prop('disabled', false)
+        } else {
+            $('#js-lend-movie').prop('disabled', true)
+        }
+    }
 </script>
 @endsection
