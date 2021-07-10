@@ -11,7 +11,7 @@ class Lend extends Model
     protected $fillable = [
         'movie_id',
         'member_id',
-        'lending_date',
+        'lateness_charge',
     ];
 
     public $timestamps = false;
