@@ -33,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($movies as $movie)
+        @foreach ($availableMovies as $movie)
         <tr>
             <td>{{ $movie->id }}</td>
             <td>{{ $movie->title }}</td>
@@ -69,7 +69,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($members as $member)
+        @foreach ($activeMembers as $member)
         <tr>
             <td>{{ $member->id }}</td>
             <td>{{ $member->name }}</td>
