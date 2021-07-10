@@ -14,6 +14,8 @@ class Lend extends Model
         'lending_date',
     ];
 
+    public $timestamps = false;
+
     public function member() {
         return $this->belongsTo('App\Member');
     }
