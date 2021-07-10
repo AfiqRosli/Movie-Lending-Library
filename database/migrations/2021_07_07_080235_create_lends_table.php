@@ -18,7 +18,7 @@ class CreateLendsTable extends Migration
             $table->unsignedInteger('movie_id');
             $table->unsignedInteger('member_id');
             $table->dateTime('lending_date');
-            $table->dateTime('returned_date');
+            $table->dateTime('returned_date')->nullable();
             $table->unsignedInteger('lateness_charge');
             $table->dateTime('created_time');
         });
