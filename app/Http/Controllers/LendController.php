@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class LendController extends Controller
 {
+    public function home() {
+        return view('lend.home');
+    }
+
     /**
      * Display a listing of the resource.
      *
