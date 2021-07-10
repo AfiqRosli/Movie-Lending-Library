@@ -33,6 +33,8 @@ Route::name('lend.')->group(function () {
     Route::get('lend', 'LendController@home')->name('home');
     Route::get('lend/list', 'LendController@index')->name('index');
     Route::get('lend/create', 'LendController@create')->name('create');
+
+    Route::post('lend', 'LendController@store')->name('store');
 });
 
 Route::name('return.')->group(function () {
