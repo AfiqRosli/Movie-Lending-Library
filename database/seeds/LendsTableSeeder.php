@@ -11,6 +11,6 @@ class LendsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Lend::class, 50)->create();
+        factory(App\Lend::class, 30)->create();
     }
 }
