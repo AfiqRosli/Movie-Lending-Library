@@ -241,10 +241,11 @@
     function updateTableRowData(column, lend) {
         lendTable.cell(column.returned_date).data(dayjs(lend.returned_date).format('D MMM YYYY'))
         lendTable.cell(column.lateness_charge).data(`$${((lend.lateness_charge) / 100).toFixed(2)} BND`)
+        lendTable.cell(column.actions).data('-')
     }
 
     function generateEditIcon(row) {
-        var editIcon = ''
+        var editIcon = '-'
 
         if (row.lateness_charge == '-') {
             editIcon =
