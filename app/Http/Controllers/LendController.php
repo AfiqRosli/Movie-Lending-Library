@@ -105,7 +105,15 @@ class LendController extends Controller
      */
     public function update(Request $request, Lend $lend)
     {
-        //
+        $lend->update($request->lend);
+
+        $lend->returned_date = date('Y-m-d H:i:s');
+
+        $lend->save();
+
+        return response()->json([
+            'updated_lend' => $lend
+        ], 200);
     }
 
     /**
