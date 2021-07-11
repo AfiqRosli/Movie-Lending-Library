@@ -33,6 +33,17 @@
         </tr>
     </thead>
     <tbody>
+        @foreach ($lends as $lend)
+        <tr>
+            <td>{{ $lend->id }}</td>
+            <td>{{ $lend->movie_id }}</td>
+            <td>{{ $lend->member_id }}</td>
+            <td>{{ Helper::formatDate($lend->lending_date) }}</td>
+            <td>{{ $lend->returned_date <> null ? Helper::formatDate($lend->returned_date) : 'Lending' }}</td>
+            <td>{{ Helper::latenessChargeDisplay($lend->lateness_charge) }}</td>
+            <td></td>
+        </tr>
+        @endforeach
     </tbody>
     <tfoot>
         <tr>
