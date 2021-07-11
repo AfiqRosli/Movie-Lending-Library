@@ -269,7 +269,7 @@
                     <input id="swal-date_of_joined">
                 </div>
             </div>
-            <div class="custom-control custom-switch">
+            <div class="custom-control custom-switch no-select">
                 <input type="checkbox" class="custom-control-input" id="swal-is_active">
                 <label class="custom-control-label" for="swal-is_active">Is Active</label>
             </div>
