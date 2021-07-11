@@ -104,6 +104,63 @@
         });
     });
 
+    async function openEditModal(el) {
+        var lateness_charges = calculateLatenessCharges($(el).attr('data-lending_date'))
+
+        const swalResponse = await Swal.fire({
+            title: 'Return Movie',
+            html:
+            `
+            <div class="text-left">
+                <h3>Lending Info</h3>
+                <p><b>Movie Title:</b> ${$(el).attr('data-movie_title')}</p>
+                <p><b>Member Name:</b> ${$(el).attr('data-member_name')}</p>
+                <p><b>Lateness Charges:</b> ${lateness_charges.text}</p>
+
+                <div class="custom-control custom-switch">
+                    <span onclick="toggleSwalConfirmBtn()" class="no-select">
+                        <input type="checkbox" class="custom-control-input" id="swal-has_paid">
+                        <label class="custom-control-label" for="swal-has_paid">
+                            ${$(el).attr('data-member_name')} has payed the lateness charges
+                        </label>
+                    </span>
+                </div>
+            </div>
+            `,
+            buttonsStyling: false,
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: 'Confirm',
+            customClass: {
+                confirmButton: 'btn btn-primary btn-lg mr-2',
+                cancelButton: 'btn btn-secondary btn-lg',
+            },
+            focusConfirm: false,
+            didOpen: () => {
+                $(Swal.getConfirmButton()).prop('disabled', true)
+            },
+            preConfirm: async () => {
+                var lend = {
+                    id: $(el).data('id'),
+                    lateness_charge: lateness_charges.cents
+                }
+
+                await patchLend(lend)
+            }
+        })
+
+        if (swalResponse.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Movie Returned',
+                buttonsStyling: false,
+                customClass: {
+                    confirmButton: 'btn btn-primary btn-lg mr-2',
+                }
+            })
+        }
+    }
+
 
     function generateEditIcon(row) {
         var editIcon = ''
