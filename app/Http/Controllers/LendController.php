@@ -21,7 +21,9 @@ class LendController extends Controller
      */
     public function index()
     {
-        return view('lend.index');
+        $lends = Lend::all();
+
+        return view('lend.index', compact('lends'));
     }
 
     /**
