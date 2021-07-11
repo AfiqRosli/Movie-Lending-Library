@@ -185,6 +185,24 @@
         return lend
     }
 
+    function calculateLatenessCharges(lending_date) {
+        var days_diff = dayjs().diff(lending_date, 'day'),
+            lateness_charges = {}
+
+        if (days_diff > 30) {
+            var days_overdue = days_diff - 30,
+                charges_per_day = 50 // 50 cents
+
+            lateness_charges.cents = days_overdue * charges_per_day
+            lateness_charges.text = `$${((days_overdue * charges_per_day) / 100).toFixed(2)} BND`
+        } else {
+            lateness_charges.cents = 0
+            lateness_charges.text = `$0.00 BND`
+        }
+
+        return lateness_charges
+    }
+
 
     function generateEditIcon(row) {
         var editIcon = ''
