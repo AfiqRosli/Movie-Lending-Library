@@ -203,6 +203,17 @@
         return lateness_charges
     }
 
+    function toggleSwalConfirmBtn() {
+        var btn = $(Swal.getConfirmButton()),
+            input = $('#swal-has_paid')
+
+        if (input.is(':checked')) {
+            btn.prop('disabled', false)
+        } else {
+            btn.prop('disabled', true)
+        }
+    }
+
 
     function generateEditIcon(row) {
         var editIcon = ''
