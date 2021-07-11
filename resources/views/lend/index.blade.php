@@ -24,8 +24,8 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Movie Title</th>
-            <th>Member</th>
+            <th>Movie ID</th>
+            <th>Member ID</th>
             <th>Lending Date</th>
             <th>Returned Date</th>
             <th>Lateness Charge</th>
@@ -37,8 +37,8 @@
     <tfoot>
         <tr>
             <th>ID</th>
-            <th>Movie Title</th>
-            <th>Member</th>
+            <th>Movie ID</th>
+            <th>Member ID</th>
             <th>Lending Date</th>
             <th>Returned Date</th>
             <th>Lateness Charge</th>
