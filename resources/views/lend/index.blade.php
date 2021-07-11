@@ -26,6 +26,8 @@
             <th>ID</th>
             <th>Movie ID</th>
             <th>Member ID</th>
+            <th>Movie Title</th>
+            <th>Member Name</th>
             <th>Lending Date</th>
             <th>Returned Date</th>
             <th>Lateness Charge</th>
@@ -38,6 +40,8 @@
             <td>{{ $lend->id }}</td>
             <td>{{ $lend->movie_id }}</td>
             <td>{{ $lend->member_id }}</td>
+            <td>{{ $lend->getMovieTitle() }}</td>
+            <td>{{ $lend->getMemberName() }}</td>
             <td>{{ Helper::formatDate($lend->lending_date) }}</td>
             <td>{{ $lend->returned_date <> null ? Helper::formatDate($lend->returned_date) : 'Lending' }}</td>
             <td>{{ Helper::latenessChargeDisplay($lend->lateness_charge) }}</td>
@@ -50,6 +54,8 @@
             <th>ID</th>
             <th>Movie ID</th>
             <th>Member ID</th>
+            <th>Movie Title</th>
+            <th>Member Name</th>
             <th>Lending Date</th>
             <th>Returned Date</th>
             <th>Lateness Charge</th>
@@ -83,8 +89,10 @@
             },
             columns: [
                 { data: 'id', visible: false },
-                { data: 'movie_id' },
-                { data: 'member_id' },
+                { data: 'movie_id', visible: false },
+                { data: 'member_id', visible: false },
+                { data: 'movie_title' },
+                { data: 'member_name' },
                 { data: 'lending_date' },
                 { data: 'returned_date' },
                 { data: 'lateness_charge' },
@@ -107,6 +115,8 @@
                 data-id="${row.id}"
                 data-movie_id="${row.movie_id}"
                 data-member_id="${row.member_id}"
+                data-movie_title="${row.movie_title}"
+                data-member_name="${row.member_name}"
                 data-lending_date="${row.lending_date}"
                 data-returned_date="${row.returned_date}"
                 data-lateness_charge="${row.lateness_charge}"
