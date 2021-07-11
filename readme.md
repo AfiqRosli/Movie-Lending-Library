@@ -27,6 +27,10 @@ Custom class aliase (Helper) is added in the project. In case the project can't 
 ```php
 composer dump-autoload
 ```
+#### Info
+- Laravel Framework 5.6.40
+- Composer 2.1.3
+- PHP 7.4.6
 
 ## Preview
 ![alt text][preview-1]
