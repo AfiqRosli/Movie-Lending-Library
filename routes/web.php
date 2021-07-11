@@ -35,4 +35,6 @@ Route::name('lend.')->group(function () {
     Route::get('lend/create', 'LendController@create')->name('create');
 
     Route::post('lend', 'LendController@store')->name('store');
+
+    Route::patch('lend/{lend}', 'LendController@update')->name('update');
 });
