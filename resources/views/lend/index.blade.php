@@ -66,5 +66,56 @@
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 
 <script>
+    var lendTable
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        lendTable = $('#lend-table').DataTable({
+            responsive: true,
+            language: {
+                emptyTable: "No movie has been lended (～o￣3￣)～",
+                zeroRecords: "No matching lend records found (´。＿。｀))"
+            },
+            columns: [
+                { data: 'id', visible: false },
+                { data: 'movie_id' },
+                { data: 'member_id' },
+                { data: 'lending_date' },
+                { data: 'returned_date' },
+                { data: 'lateness_charge' },
+                { data: null, orderable: false, render: (data, type, row) => {
+                        return '<div class="text-center">' + generateEditIcon(row) + '</div>'
+                    }
+                },
+            ],
+        });
+    });
+
+
+    function generateEditIcon(row) {
+        var editIcon = ''
+
+        if (row.lateness_charge == '-') {
+            editIcon =
+            `
+            <i onclick="openEditModal(this)"
+                data-id="${row.id}"
+                data-movie_id="${row.movie_id}"
+                data-member_id="${row.member_id}"
+                data-lending_date="${row.lending_date}"
+                data-returned_date="${row.returned_date}"
+                data-lateness_charge="${row.lateness_charge}"
+                class="js-action-edit fas fa-edit fa-lg icon icon__edit">
+            </i>
+            `
+        }
+
+        return editIcon
+    }
 </script>
 @endsection
