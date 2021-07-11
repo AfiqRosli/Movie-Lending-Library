@@ -214,6 +214,34 @@
         }
     }
 
+    function getTableRow(table, lendId) {
+        var row = {}
+
+        table.rows((index, data, node) => {
+            if (parseInt(data.id) == lendId) {
+                row.index = parseInt(data.id)
+                row.data = data
+                row.node = node
+            }
+        })
+
+        return row
+    }
+
+    function getRowColumns(row) {
+        var column = {}
+
+        column.returned_date = row.node.cells[3]
+        column.lateness_charge = row.node.cells[4]
+        column.actions = row.node.cells[5]
+
+        return column
+    }
+
+    function updateTableRowData(column, lend) {
+        lendTable.cell(column.returned_date).data(dayjs(lend.returned_date).format('D MMM YYYY'))
+        lendTable.cell(column.lateness_charge).data(`$${((lend.lateness_charge) / 100).toFixed(2)} BND`)
+    }
 
     function generateEditIcon(row) {
         var editIcon = ''
