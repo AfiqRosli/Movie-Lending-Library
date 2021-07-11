@@ -11,9 +11,8 @@ $factory->define(App\Lend::class, function (Faker $faker) {
         'member_id' => function() {
             return factory(App\Member::class)->create()->id;
         },
-        'lending_date' => $faker->dateTime()->format('Y-m-d H:i:s'),
-        'returned_date' => Arr::random([null, date('Y-m-d H:i:s')]),
-        'lateness_charge' => 50, // 50 cents per day
+        'lending_date' => $faker->dateTimeBetween($startDate = '-3 months', $endDate = '-1 day'),
+        'returned_date' => Arr::random([null, new DateTime()]),
         'created_time' => date('Y-m-d H:i:s')
     ];
 });

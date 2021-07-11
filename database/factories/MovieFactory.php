@@ -12,7 +12,7 @@ $factory->define(App\Movie::class, function (Faker $faker) {
     return [
         'title' => $faker->movie,
         'genre' => Arr::random($movieGenres),
-        'released_date' => $faker->dateTime()->format('Y-m-d H:i:s'),
+        'released_date' => $faker->dateTimeBetween($startDate = '-10 years', $endDate = '-1 month'),
         'created_time' => date('Y-m-d H:i:s')
     ];
 });
