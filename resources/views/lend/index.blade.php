@@ -161,6 +161,30 @@
         }
     }
 
+    async function patchLend(lend) {
+        try {
+            var result = await $.ajax({
+                url: '/lend/' + lend.id,
+                method: 'PATCH',
+                data: {
+                    lend
+                }
+            })
+
+            lend = result.updated_lend
+
+            // Update the Frontend data
+            var row = getTableRow(lendTable, lend.id)
+            var column = getRowColumns(row)
+            updateTableRowData(column, lend)
+        } catch (error) {
+            console.log(error)
+            Swal.showValidationMessage('Something went wrong')
+        }
+
+        return lend
+    }
+
 
     function generateEditIcon(row) {
         var editIcon = ''
